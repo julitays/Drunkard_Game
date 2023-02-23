@@ -1,14 +1,17 @@
-                                            # Проверка знаний ООП и создание карточной игры: "Пьяница"
+# Проверка знаний ООП и создание карточной игры: "Пьяница"
 from random import shuffle
+
+
 class Card:
-    suits = ['пикей', 'бубей', 'червей', 'крестей']     # Масти, которые могут быть у выпавших карт
+    suits = ['пикей', 'бубей', 'червей', 'крестей']  # Масти, которые могут быть у выпавших карт
     values = [None, None, 'Двойка', 'Тройка', 'Четверка',
               'Пятерка', 'Шестерка', 'Семёрка', 'Восьмёрка',
               'Девятка', 'Десятка', 'Валет', 'Дама',
-              'Король', 'Туз']                         ## Различные номиналы карт, два None нужны для правильной
-                                                        ## индексации, таким образом карта 2 на 2-ом индексе в списке
+              'Король', 'Туз']  ## Различные номиналы карт, два None нужны для правильной
 
-    def __init__(self, v, s):                           # Переменные одного экземпляра, создают вид карты объекта
+    ## индексации, таким образом карта 2 на 2-ом индексе в списке
+
+    def __init__(self, v, s):  # Переменные одного экземпляра, создают вид карты объекта
         """Suits and values - это целые числа"""
         self.value = v
         self.suit = s
@@ -16,11 +19,11 @@ class Card:
     def __it__(self, c2):
 
         if self.value < c2.value:
-            return True                                 ## Самая сильная масть располагается последней, то есть она
-                                                        ## назначена наибольшему индексу, а самая слабая масть
-                                                        ## назначена наименьшему индексу.
+            return True  ## Самая сильная масть располагается последней, то есть она
+            ## назначена наибольшему индексу, а самая слабая масть
+            ## назначена наименьшему индексу.
 
-        if self.value == c2.value:                      # В таком случае методы используют масти, чтобы избежать ничьей.
+        if self.value == c2.value:  # В таком случае методы используют масти, чтобы избежать ничьей.
             if self.suit < c2.suit:
                 return True
             else:
@@ -38,22 +41,23 @@ class Card:
         return False
 
     def __repr__(self):
-        v = self.values[self.value] + ' ' + self.suits[self.suit] # Выводит карту по названию переменных
+        v = self.values[self.value] + ' ' + self.suits[self.suit]  # Выводит карту по названию переменных
         return v
 
 
 class Deck:
     def __init__(self):
         self.cards = []
-        for i in range(2, 15):                  # Первое значение для карты — это 2, а последнее — 14 (туз).
-            for j in range(4):                  # Так создаются 52 карты, по карте на каждую комбинацию масти и значения.
+        for i in range(2, 15):  # Первое значение для карты — это 2, а последнее — 14 (туз).
+            for j in range(4):  # Так создаются 52 карты, по карте на каждую комбинацию масти и значения.
                 self.cards.append(Card(i, j))
-        shuffle(self.cards)                     # Имитируем перетасовку колоды карт.
+        shuffle(self.cards)  # Имитируем перетасовку колоды карт.
 
     def rm_card(self):
         if len(self.cards) == 0:
             return
         return self.cards.pop()
+
 
 # deck = Deck()
 # for card in deck.cards:
@@ -62,8 +66,9 @@ class Deck:
 class Player:
     def __init__(self, name):
         self.name = name
-        self.wins = 0                           # для отслеживания количества раундов, выигранных игроком
-        self.card = None                        # для представления карты, которую в данный момент держит игрок;
+        self.wins = 0  # для отслеживания количества раундов, выигранных игроком
+        self.card = None  # для представления карты, которую в данный момент держит игрок;
+
 
 class Game:
     def __init__(self):
@@ -87,9 +92,9 @@ class Game:
         cards = self.deck.cards
         print('Поехали!')
         while len(cards) >= 2:
-            m = "Нажмите X для выхода. Нажмите любую другую клавишу для начала игры."
+            m = "Нажмите X для выхода. Нажмите любую другую клавишу для начала игры. "
             response = input(m)
-            if response == 'X':
+            if response == 'X' or response == 'x':
                 break
             p1c = self.deck.rm_card()
             p2c = self.deck.rm_card()
@@ -103,16 +108,16 @@ class Game:
                 self.p2.wins += 1
                 self.wins(self.p2.name)
 
-
         win = self.winner(self.p1, self.p2)
         print('Игра окончена! {} выиграл!'.format(win))
 
-        def winner(self, p1, p2):
-            if p1.wins > p2.wins:
-                return p1.name
-            if p1.wins < p2.wins:
-                return p2.name
-            return "Ничья!"
+    def winner(self, p1, p2):
+        if p1.wins > p2.wins:
+            return p1.name
+        if p1.wins < p2.wins:
+            return p2.name
+        return "Ничья!"
+
 
 game = Game()
 game.play_game()
